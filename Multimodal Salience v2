@@ -1,0 +1,80 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import numpy as np
+
+# EEG Encoder (EEG-Net)
+class EEGNet(nn.Module):
+    def __init__(self):
+        super(EEGNet, self).__init__()
+        # Define EEG-Net architecture
+        self.conv1 = nn.Conv2d(1, 16, kernel_size=(1, 64), stride=(1, 2))
+        self.conv2 = nn.Conv2d(16, 32, kernel_size=(2, 32), stride=(1, 2))
+        self.fc1 = nn.Linear(32 * 64, 128)
+    
+    def forward(self, x):
+        x = self.conv1(x)
+        x = nn.ReLU()(x)
+        x = self.conv2(x)
+        x = nn.ReLU()(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc1(x)
+        return x
+
+# Image Encoder (Inception-v3)
+class ImageEncoder(nn.Module):
+    def __init__(self):
+        super(ImageEncoder, self).__init__()
+        self.inception = torchvision.models.inception_v3(pretrained=True)
+        self.fc = nn.Linear(1000, 128)
+    
+    def forward(self, x):
+        x = self.inception(x)
+        x = self.fc(x)
+        return x
+
+# Compatibility Function
+def compatibility_function(eeg_embedding, image_embedding):
+    return torch.dot(eeg_embedding, image_embedding)
+
+# Training function
+def train(encoders, data_loader, epochs, lr):
+    eeg_encoder, image_encoder = encoders
+    optimizer = optim.Adam(list(eeg_encoder.parameters()) + list(image_encoder.parameters()), lr=lr)
+    for epoch in range(epochs):
+        for eeg_data, image_data, labels in data_loader:
+            eeg_embedding = eeg_encoder(eeg_data)
+            image_embedding = image_encoder(image_data)
+            compatibility = compatibility_function(eeg_embedding, image_embedding)
+            # Compute losses and update encoders
+            loss = compute_loss(compatibility, labels)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+def compute_loss(compatibility, labels):
+    # Implement loss computation based on Eq. 5-6
+    pass
+
+def saliency_detection(eeg_encoder, image_encoder, eeg_data, image_data):
+    eeg_embedding = eeg_encoder(eeg_data)
+    image_embedding = image_encoder(image_data)
+    compatibility = compatibility_function(eeg_embedding, image_embedding)
+    saliency_map = np.zeros(image_data.shape[2:])
+    for x in range(image_data.shape[2]):
+        for y in range(image_data.shape[3]):
+            for s in scales:
+                masked_image = apply_mask(image_data, x, y, s)
+                new_compatibility = compatibility_function(eeg_embedding, image_encoder(masked_image))
+                contribution = compatibility - new_compatibility
+                saliency_map[x, y] += contribution
+    saliency_map = normalize(saliency_map)
+    return saliency_map
+
+def apply_mask(image, x, y, s):
+    # Apply mask to image by suppressing s×s patch around (x, y)
+    pass
+
+def normalize(saliency_map):
+    # Normalize saliency map
+    pass
