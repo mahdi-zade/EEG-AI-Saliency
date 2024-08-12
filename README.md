@@ -1,16 +1,42 @@
 # EEG-AI-Saliency
 
+
 ## Abstract
 
 
 
 ## Introduction
 Understanding how the brain processes external stimuli is crucial for advancing many fields. namely assistive tecnologies, cognitive neuroscience, education, sports, Consumer and Lifestyle Technologies, Marketing and User Experience. 
-Electroencephalography (EEG), a widely used non-invasive brain recording technique, has been instrumental in studies exploring brain activity across various contexts, including attention, memory, motor control, and vision. 
-Recent research has focused on mapping the relationship between EEG signals and visual saliency—the identification of key elements in a scene that stand out due to their visual distinctiveness or task relevance. Despite significant progress, the connection between EEG recordings and image saliency, particularly through the use of dynamic information from functional connectivity between brain regions, remains underexplored.
 
-Advancements in deep learning have revolutionized computer vision, enabling remarkable improvements in tasks such as image classification and object detection. However, automated vision systems still lag behind human capabilities in interpreting complex visual environments. Saliency detection, a fundamental aspect of human visual perception, allows us to efficiently process scenes by focusing on the most important elements, thereby optimizing cognitive resources. Integrating deep learning techniques with EEG signal analysis has shown promise in enhancing our understanding of how visual stimuli influence brain activity. For instance, deep networks have been employed to classify EEG responses to visual inputs and even reconstruct images from brain signals, highlighting the potential of this interdisciplinary approach to bridge the gap between neural activity and visual perception.
+Saliency detection, a fundamental aspect of human visual perception, allows us to efficiently process scenes by focusing on the most important elements, thereby optimizing cognitive resources.
+Visual saliency is the identification of key elements in a scene that stand out due to their visual distinctiveness or task relevance.
+
+The representation of visual stimuli in the brain relates to important points of the picture. To illustrate the priority of a location in a visual image to represent in the brain, and to identify them efficiently, the concept of a saliency map was first proposed by Koch and Ulman in 1985 [18].
+
+Realizing how the salient region affects the brain signal is of great importance to understanding how the visual system works. Although some works have been made to explore the relationship between the brain activity through recorded EEG signals and the salient regions of the visual stimuli, the mapping of the EEG signals to image saliency has not been realized.
+
+Traditional approaches [2] attempt to identify salient areas in a biologically-plausible way, through the analysis of hand crafted multi-scale color/intensity/orientation maps.
+
+Newer approaches [3], [4], [5] directly train CNNs using saliency maps as target signals. However, the accuracy of automated saliency detection approaches is still far from the human level.
+
+Deep Supervised Salient Object Detection (SSOD) excessively relies on large-scale annotated pixel-level labels which consume intensive labour acquiring high quality labels. 
+
+In such precondition, deep Unsupervised Salient Object Detection (USOD) draws public attention. Under the framework of the existing deep USOD methods, they mostly generate pseudo labels by fusing several hand-crafted detectors’ results. On top of that, a Fully Convolutional Network (FCN) will be trained to detect salient regions separately. While the existing USOD methods have achieved some progress, there are still challenges for them towards satisfactory performance on the complex scene, including (1) poor object wholeness owing to neglecting the hierarchy of those salient regions; (2) unsatisfactory pseudo labels causing by unprimitive fusion of hand-crafted results. To address these issues, in this paper, we introduce the property of part-whole relations endowed by a Belief Capsule Network (BCNet) for deep USOD, which is achieved by a multi-stream capsule routing strategy with a belief score for each stream within the CapsNets architecture. To train BCNet well, we generate high-quality pseudo labels from multiple hand-crafted detectors by developing a consistency-aware fusion strategy. Concretely, a weeding out criterion is first defined to filter out unreliable training samples based on the inter-method consistency among four hand-crafted saliency maps. In the following, a dynamic fusion mechanism is designed to generate high-quality pseudo labels from the remaining samples for BCNet training. Experiments on five public datasets illustrate the superiority of the proposed method. 
+
+Lastest research attempts to merge biological priors with the representational power of deep architectures. 
+Because the recent discoveries show evidence that brain representations in the visual pathway appear to
+be highly correlated to activation patterns within neural network layers [6], [7].
+
+Electroencephalography (EEG), a widely used non-invasive brain recording technique, has been instrumental in studies exploring brain activity across various contexts, including attention, memory, motor control, and vision. 
+
+Recent research has focused on mapping the relationship between EEG signals and visual saliency. Despite significant progress, the connection between EEG recordings and image saliency, particularly through the use of dynamic information from functional connectivity between brain regions, remains underexplored.
+
+Integrating deep learning techniques with EEG signal analysis has shown promise in enhancing our understanding of how visual stimuli influence brain activity. For instance, deep networks have been employed to classify EEG responses to visual inputs and even reconstruct images from brain signals, highlighting the potential of this interdisciplinary approach to bridge the gap between neural activity and visual perception.
+
+## Methods
+
 There are many ways to classify various methods used for visual saliency detection.
+
 The most recent review paper in the field has classified the mothods into two broad categories:
 - Studies have shown a strong correlation between brain representations in the visual pathway and activation patterns within deep neural networks.
 - This has led to research into "brain-guided" saliency detection, using neural signals like EEGs as an additional input or supervisory signal for deep learning models.
@@ -18,10 +44,10 @@ The most recent review paper in the field has classified the mothods into two br
 ![image](https://github.com/user-attachments/assets/9a204af3-b439-452b-87ac-53710bbe8899)
 
 
-## Conventional Methods for Saliency Detection
+### Conventional Methods for Saliency Detection
 Traditional approaches to saliency detection aim to identify salient areas in images by analyzing hand-crafted features and designing algorithms that simulate human perception, often inspired by biological processes in the human visual system. These methods often analyzed low-level visual cues like color, intensity, and orientation to create saliency maps, highlighting regions that stand out from their surroundings
 
-### Limitations 
+#### Limitations 
 Traditional approaches for visual saliency detection have limitations, particularly when compared to the capabilities of the human visual system and newer deep learning methods.
 
 - <details>
@@ -46,9 +72,9 @@ Traditional approaches for visual saliency detection have limitations, particula
 
 
 
-## Deep Learning Methods for Saliency Detection
+### Deep Learning Methods for Saliency Detection
 
-### Advantages
+#### Advantages
 
 - <details>
   <summary>Superior Accuracy and Performance:</summary>
@@ -123,8 +149,20 @@ Traditional approaches for visual saliency detection have limitations, particula
 </details>
 
 
-### Current Deep learning Approaches to saliency detection
-
+#### Current Deep learning Approaches to saliency detection
+Two recently proposed deep learning-based saliency models are salicon [41,42] and
+salnet [43]. Like other saliency detection methods, the purpose of the salicon is to realize
+and to predict visual saliency. This model has used the coefficients of pre-trained AlexNet,
+VGG-16, and GoogleNet. The last layer of the proposed salicon is a convolutional layer
+that is used to extract the salient points. The initial parameters have been determined
+using the pre-trained network based on ImageNet dataset, and the back propagation
+has been used to optimize the evaluation criterion, in spite of previous approaches that
+used support vector machine. The training process in salnet has been achieved using the
+Euclidean distance between the mapped predicted salient points and the ground truth
+pixels. A shallow and a deep network have been presented. The shallow net consists of
+three convolutional layers and two fully connected layers with trained weights. ReLU is
+used as the activation function of each layers of shallow net. The deep network consists of
+10 layers and 25.8 million parameters.
 
 - <details>
   <summary>Multi-scale Patch-Based Methods</summary>
@@ -166,7 +204,40 @@ Traditional approaches for visual saliency detection have limitations, particula
 We will be focusing on Multimodal Learning with Neural Signals. Our proposal is that we can
 
 
-#### Related Works
+### Related Works
+In recent years, some efforts have been made to understand the connection between
+the visual saliency content and the brain activity. In 2018, Zhen Liang et al. [Characterization of electroencephalography signals for estimating saliency features in videos.] presented
+a model to study this connection and extracted sets of efficient features of EEG signals to
+map to the visual salient related features of the video stimuli. The model has used the work
+of Tavakoli et al. in 2017 [Bottom-up fixation prediction using unsupervised hierarchical models.]. The reconstruction of the features of the salient visual points
+based on the features of the EEG signal has been performed with good accuracy in [44],
+and prediction of the temporal distribution of salient visual points has been done using
+EEG signals recorded in a real environment. In another study [Object extraction in cluttered environments via a
+P300-based IFCE], the identification of the
+objects in images recorded by robots was the purpose of the study, and a method based on
+P300 wave was applied to identify the objects. The significant challenge for extracting the
+objects of interest in navigating the robots is how to use a machine to extract the objects of
+interest for humans. The combination of a P300-based BCI and a Fuzzy color extractor has
+been applied to identify the region of interest. Humbeeck et al. [Presaccadic EEG activity predicts visual
+saliency in free-viewing contour integration] have presented a model
+for calculating the importance of the salient points for the fixation positions. Brain function
+related to the extracted model has been studied using the eye-tracker and recording the
+EEG signal. An evaluation of the connection between the importance of salient points and
+the amplitude of the EEG signal has been done via this modeling. A multimodal learning
+of EEG and image modalities has been performed in [Decoding brain representations by multimodal learning
+of neural activity and visual features] to achieve a Siamese network for
+image saliency detection. The idea of the work in [Decoding brain representations by multimodal learning
+of neural activity and visual features] is the training of a common space of
+brain signal and image input stimuli by maximizing a compatibility function between these
+two embeddings of each modality. The estimation of saliency is achieved by masking the
+image with different scales of image patch and computing the corresponding variation in
+compatibility. This process is performed at multiple image scales, and results in a saliency
+map of the image.
+
+
+
+
+
 There seems to be only 3 sources with similar approach to visual saliency detection. We will explain the method used in each of them:
 
 #### [Visual saliency detection guided by neural signals:](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
@@ -177,6 +248,23 @@ Proposes a novel approach to visual saliency detection guided by brain signals. 
 * This method combines deep learning's representational power with biological inspiration, aiming to learn visual saliency directly from brain activity.
 
 #### [Visual Saliency and Image Reconstruction from EEG Signals via an Effective Geometric Deep Network-Based Generative Adversarial Network:](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
+
+Realizing how the salient region affects the brain signal is of great importance to understanding how the visual system works. Although some works have been made to explore the relationship between the brain activity through recorded EEG signals and the salient regions of the visual stimuli, the mapping of the EEG signals to image saliency has not been realized. Moreover, the use of dynamic information between the connected EEG
+channels according to the functional connectivity between different brain regions has not
+been considered to explore the connection between brain activity and salient regions.
+
+To achieve an efficient mapping of EEG signals to the salient region corresponding
+to the visual stimuli, a deep network based on the graph representaion of EEG records is
+introduced. The mapping would extract the visual saliency map related to the recorded EEG
+signals.
+
+The proposed network consists of two parts, including the geometric network and the generative adversarial network. 
+
+''''
+What is this???
+The graph representation of the EEG records facilitates to exploit the functional connectivity between different channels in each EEG recordings in the classification procedure of the geometric deep network part of the proposed network. The overall model realizes the visual saliency reconstruction through the EEG records.
+
+''''
 
 Presents a Geometric Deep Network-based Generative Adversarial Network (GDN-GAN) for visual saliency detection and image reconstruction from EEG signals. This approach also uses a two-part architecture:
 * **Geometric Deep Network (GDN) for Feature Extraction:** This part takes a graph representation of EEG channels as input, where the graph represents functional connectivity between the channels. The GDN extracts discriminative features from this graph to categorize the EEG signals into different visual patterns.
