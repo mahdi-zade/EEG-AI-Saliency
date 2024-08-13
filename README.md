@@ -13,15 +13,42 @@ Visual saliency is the identification of key elements in a scene that stand out 
 
 The representation of visual stimuli in the brain relates to important points of the picture. To illustrate the priority of a location in a visual image to represent in the brain, and to identify them efficiently, the concept of a saliency map was first proposed by Koch and Ulman in 1985 [18].
 
-Realizing how the salient region affects the brain signal is of great importance to understanding how the visual system works. Although some works have been made to explore the relationship between the brain activity through recorded EEG signals and the salient regions of the visual stimuli, the mapping of the EEG signals to image saliency has not been realized.
+Traditional approaches of saliency detection [2] attempt to identify salient areas in a biologically-plausible way, through the analysis of hand crafted multi-scale color/intensity/orientation maps.
 
-Traditional approaches [2] attempt to identify salient areas in a biologically-plausible way, through the analysis of hand crafted multi-scale color/intensity/orientation maps.
+In a number of early works on salient region detection [20 – 22 ], saliency was considered as being unique, and was frequently calculated as center–surround contrast for every pixel. 
 
-Newer approaches [3], [4], [5] directly train CNNs using saliency maps as target signals. However, the accuracy of automated saliency detection approaches is still far from the human level.
+In 2005, Hu et al. [23 ] used generalized principal component analysis (GPCA) [24 ] to compute salient regions. GPCA has been used to estimate the linear subspaces of  the mapped image without segmenting the image, and salient regions have been determined by considering the geometric properties and feature contrast of regions. 
+
+Rosin [ 25 ] pro- posed an approach for salient object detection, which has required very simple operations
+for each pixel, such as moment preserving binarization, edge detection, and threshold decomposition. 
+
+Valenti et al. [26 ] proposed an isophote-based framework where isocenter clustering, color boosting, and curvedness have been used for the estimation of the saliency map.
+
+In addition, some supervised learning-based models for saliency detection were proposed, such as support vector machine in 2010 with Zhong et al. [27 ], regression in 2016 with Zhou et al., and neural networks with Duan in 2016 [28]. Some of the saliency detection methods are based on models developed for simulating the visual attention processes. Visual attention is a selective procedure that occurs for understanding the the visual input to the brain from the surrounding environment. Neisser, in 1967 [ 29 ], suggested that bottom-up and top-down processes occur in the brain during the time of the processing objects of a visual scene.
+
+A number of researchers have made efforts to improve the performance of the bottom-up-based saliency models. In 2013, Zhang and Sclaroff measured the contour information of regions using a set of Boolean maps to segment the salient objects from the background, and the efficiency of the model was demonstrated by five sets of eye tracking databases [30]. 
+
+In 2015, Mauthner et al. proposed an estimation of the joint distribution of motion and color features based on Gestalt theory,in which the local and global foreground saliency likelihoods have been described with an
+encoding vector, and these individual likelihoods generated the final saliency map [31]. 
+
+Top-down saliency-based models, as in the work of Xu et al. in 2014 [32],have been conducted through contextual guidance and pre-defining of the discriminant features and allocating learned weights for different features, as performed by Zhao and Koch in 2011 [ 33 ], and in 2017, Yang [34 ] adapted feature space in a supervised manner to obtain the saliency output.
+
+Although real-time saliency detection with hand-crafted features has good performance, it does not work well in challenging scenarios to capture salient objects. One of the proposed solutions to these challenges is using neural networks [35,36] . Newer approaches [3], [4], [5] directly train CNNs using saliency maps as target signals. However, the accuracy of automated saliency detection approaches is still far from the human level.
+One of the most popular networks in machine learning are convolutional neural networks (CNNs) [35 ], and they have been implemented to solve a number of vision problems such as edge detection, semantic segmentation [37 ], and object recognition [38 ]. 
+
+Recently, in the work by Shengfeng He et al. and Ghanbin Li et al. [39 , 40 ], the effectiveness of CNNs has been shown when applied to salient object detection. 
+
+A series of techniques has been proposed to learn saliency representations from large amounts of data by exploiting the different architectures of CNNs. 
+
+Some of the models proposed for saliency detection via neural networks use multilayer perceptrons (MLPs). In these models, the input image is usually oversegmented into small regions and feature extraction is performed using a CNN. The extracted features are fed to an MLP to determine the saliency value of each small region. 
+
+The saliency problem in [ 39 ] has been solved using the one-dimensional convolution-based methods by He et al. Li and Yu [ 40] have utilized a pre-trained CNN as a feature extractor, such that the input image has been decomposed into a series of non-overlapping regions and a CNN with three different-scale inputs has been proposed to extract features from the decomposed regions. Advanced features at different scales have been captured using three subnetworks of the proposed CNN, and have been concatenated to feed into a small MLP with only two fully connected layers. These dense layers act as a regressor to output a distribution over binary saliency labels. 
+
+Two recently proposed deep learning-based saliency models are salicon [ 41 ,42 ] and salnet [ 43 ]. Like other saliency detection methods, the purpose of the salicon is to realize and to predict visual saliency. This model has used the coefficients of pre-trained AlexNet, VGG-16, and GoogleNet. The last layer of the proposed salicon is a convolutional layer that is used to extract the salient points. The initial parameters have been determined
+using the pre-trained network based on ImageNet dataset, and the back propagation has been used to optimize the evaluation criterion, in spite of previous approaches that used support vector machine. The training process in salnet has been achieved using the Euclidean distance between the mapped predicted salient points and the ground truth pixels. A shallow and a deep network have been presented. The shallow net consists of
+three convolutional layers and two fully connected layers with trained weights. ReLU is used as the activation function of each layers of shallow net. The deep network consists of 10 layers and 25.8 million parameters.
 
 Deep Supervised Salient Object Detection (SSOD) excessively relies on large-scale annotated pixel-level labels which consume intensive labour acquiring high quality labels. 
-
-In such precondition, deep Unsupervised Salient Object Detection (USOD) draws public attention. Under the framework of the existing deep USOD methods, they mostly generate pseudo labels by fusing several hand-crafted detectors’ results. On top of that, a Fully Convolutional Network (FCN) will be trained to detect salient regions separately. While the existing USOD methods have achieved some progress, there are still challenges for them towards satisfactory performance on the complex scene, including (1) poor object wholeness owing to neglecting the hierarchy of those salient regions; (2) unsatisfactory pseudo labels causing by unprimitive fusion of hand-crafted results. To address these issues, in this paper, we introduce the property of part-whole relations endowed by a Belief Capsule Network (BCNet) for deep USOD, which is achieved by a multi-stream capsule routing strategy with a belief score for each stream within the CapsNets architecture. To train BCNet well, we generate high-quality pseudo labels from multiple hand-crafted detectors by developing a consistency-aware fusion strategy. Concretely, a weeding out criterion is first defined to filter out unreliable training samples based on the inter-method consistency among four hand-crafted saliency maps. In the following, a dynamic fusion mechanism is designed to generate high-quality pseudo labels from the remaining samples for BCNet training. Experiments on five public datasets illustrate the superiority of the proposed method. 
 
 Lastest research attempts to merge biological priors with the representational power of deep architectures. 
 Because the recent discoveries show evidence that brain representations in the visual pathway appear to
@@ -29,9 +56,33 @@ be highly correlated to activation patterns within neural network layers [6], [7
 
 Electroencephalography (EEG), a widely used non-invasive brain recording technique, has been instrumental in studies exploring brain activity across various contexts, including attention, memory, motor control, and vision. 
 
-Recent research has focused on mapping the relationship between EEG signals and visual saliency. Despite significant progress, the connection between EEG recordings and image saliency, particularly through the use of dynamic information from functional connectivity between brain regions, remains underexplored.
+In recent years, some efforts have been made to understand the connection between the visual saliency content and the brain activity. 
+
+In 2018, Zhen Liang et al. [44 ] presented a model to study this connection and extracted sets of efficient features of EEG signals to map to the visual salient related features of the video stimuli. The model has used the work of Tavakoli et al. in 2017 [ 45]. The reconstruction of the features of the salient visual points based on the features of the EEG signal has been performed with good accuracy in [44], and prediction of the temporal distribution of salient visual points has been done using EEG signals recorded in a real environment. 
+
+In another study [ 46 ], the identification of the objects in images recorded by robots was the purpose of the study, and a method based on P300 wave was applied to identify the objects. The significant challenge for extracting the objects of interest in navigating the robots is how to use a machine to extract the objects of
+interest for humans. The combination of a P300-based BCI and a Fuzzy color extractor has been applied to identify the region of interest. 
+
+Humbeeck et al. [ 47] have presented a model for calculating the importance of the salient points for the fixation positions. Brain function related to the extracted model has been studied using the eye-tracker and recording the EEG signal. An evaluation of the connection between the importance of salient points and
+the amplitude of the EEG signal has been done via this modeling. 
+
+
+A multimodal learning of EEG and image modalities has been performed in [48 ] to achieve a Siamese network for
+image saliency detection. The idea of the work in [ 48] is the training of a common space of brain signal and image input stimuli by maximizing a compatibility function between these two embeddings of each modality. The estimation of saliency is achieved by masking the image with different scales of image patch and computing the corresponding variation in compatibility. This process is performed at multiple image scales, and results in a saliency map of the image.
 
 Integrating deep learning techniques with EEG signal analysis has shown promise in enhancing our understanding of how visual stimuli influence brain activity. For instance, deep networks have been employed to classify EEG responses to visual inputs and even reconstruct images from brain signals, highlighting the potential of this interdisciplinary approach to bridge the gap between neural activity and visual perception.
+
+In such precondition, deep Unsupervised Salient Object Detection (USOD) draws public attention. Under the framework of the existing deep USOD methods, they mostly generate pseudo labels by fusing several hand-crafted detectors’ results. On top of that, a Fully Convolutional Network (FCN) will be trained to detect salient regions separately. While the existing USOD methods have achieved some progress, there are still challenges for them towards satisfactory performance on the complex scene, including (1) poor object wholeness owing to neglecting the hierarchy of those salient regions; (2) unsatisfactory pseudo labels causing by unprimitive fusion of hand-crafted results. To address these issues, in this paper, we introduce the property of part-whole relations endowed by a Belief Capsule Network (BCNet) for deep USOD, which is achieved by a multi-stream capsule routing strategy with a belief score for each stream within the CapsNets architecture. To train BCNet well, we generate high-quality pseudo labels from multiple hand-crafted detectors by developing a consistency-aware fusion strategy. Concretely, a weeding out criterion is first defined to filter out unreliable training samples based on the inter-method consistency among four hand-crafted saliency maps. In the following, a dynamic fusion mechanism is designed to generate high-quality pseudo labels from the remaining samples for BCNet training. Experiments on five public datasets illustrate the superiority of the proposed method. 
+
+In 2010, Ghebreab et al. [13] investigated the recorded EEG signals in response to natural visual stimulation, and the prediction of visual inputs was realized using EEG responses. A better accuracy was achieved in comparison to a similar work by Kay et al. in 2008 [14]. These studies have had the potential to reveal the effects of visual features such as color [15 ], orientation [16 ], and position [17 ] on the brain signals of the visual cortex.
+
+The representation of visual stimuli in the brain relates to important points of the picture. To illustrate the priority of a location in a visual image to represent in the brain, and to identify them efficiently, the concept of a saliency map was first proposed by Koch and Ulman in 1985 [ 18 ]. Followed by the concept introduced by Koch and Ullman, Itti et al. in 1998 introduced a computational model corresponding to the understanding of the saliency map [ 19 ]. Following the work of Itti et al. in 1998 [19 ], detecting rarity, distinctiveness, and uniqueness in a scene is compulsory for salient object detection. 
+
+Based on the proposed model by Itti [19], many models have been developed for predicting image saliency.
+Realizing how the salient region affects the brain signal is of great importance to understanding how the visual system works. 
+
+Although some works have been made to explore the relationship between the brain activity through recorded EEG signals and the salient regions of the visual stimuli, the mapping of the EEG signals to image saliency has not been realized. 
+
 
 ## Methods
 
@@ -249,16 +300,42 @@ Proposes a novel approach to visual saliency detection guided by brain signals. 
 
 #### [Visual Saliency and Image Reconstruction from EEG Signals via an Effective Geometric Deep Network-Based Generative Adversarial Network:](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
 
-Realizing how the salient region affects the brain signal is of great importance to understanding how the visual system works. Although some works have been made to explore the relationship between the brain activity through recorded EEG signals and the salient regions of the visual stimuli, the mapping of the EEG signals to image saliency has not been realized. Moreover, the use of dynamic information between the connected EEG
-channels according to the functional connectivity between different brain regions has not
-been considered to explore the connection between brain activity and salient regions.
+Recent studies have shown that brain activity is impressed by visual saliency,the important parts of an image stimuli. 
 
-To achieve an efficient mapping of EEG signals to the salient region corresponding
-to the visual stimuli, a deep network based on the graph representaion of EEG records is
-introduced. The mapping would extract the visual saliency map related to the recorded EEG
-signals.
+In this paper, a deep model is proposed to reconstruct theimage stimuli from electroencephalogram (EEG) recordings via visual saliency. 
 
-The proposed network consists of two parts, including the geometric network and the generative adversarial network. 
+To this end, the proposed geometric deep network-based generative adversarial network (GDN-GAN) is trained to map the EEG signals to the visual saliency maps corresponding to each image. 
+
+The first part of the proposed GDN-GAN consists of Chebyshev graph convolutional layers. The input of the GDN part of the proposed network is the functional connectivity-based graph representation of the EEG channels. 
+
+The output of the GDN is imposed to the GAN part of the proposed network to reconstruct the image saliency.
+
+The saliency metrics validate the viability and efficiency of the proposed saliency reconstruction network. 
+
+The weights of the trained network are used as initial weights to reconstruct the grayscale image stimuli. The proposed network realizes the image reconstruction from EEG signals.
+
+-------------------------
+
+##### Techniques:
+
+1. Chebyshev Graph Convolution
+
+   - For detailed Explanation visit [here](https://github.com/ab-mahdi/EEG-AI-Salience/edit/main/isual%20saliency%20detection%20via%20learning%20a%20a%20shared%20brain-visual%20representation.md)
+
+2. Generative Adversarial Network
+
+  - Generative deep modeling is considered as an unsupervised learning task that discovers and learns the contents in input data in such a way that the extracted model can be used to generate new examples that could have been extracted plausibly from the original dataset.
+  - For detailed Explanation visit [here](https://github.com/ab-mahdi/EEG-AI-Salience/edit/main/isual%20saliency%20detection%20via%20learning%20a%20a%20shared%20brain-visual%20representation.md)
+
+3. Saliency Metrics
+
+  -  Ground truth is necessary for calculating these metrics. Another input would be the saliency map. Considering these two inputs and computing these metrics, the degree of the similarity between them would be available.
+  -  Similarity (SIM)
+  -  Structural similarity (SSIM)
+  -  Pearson’s correlation coefficient (CC)
+  -  normalized scanpath saliency (NSS)
+  -  The shuffled area under the ROC curve (s-AUC) 
+
 
 ''''
 What is this???
@@ -270,6 +347,60 @@ Presents a Geometric Deep Network-based Generative Adversarial Network (GDN-GAN)
 * **Geometric Deep Network (GDN) for Feature Extraction:** This part takes a graph representation of EEG channels as input, where the graph represents functional connectivity between the channels. The GDN extracts discriminative features from this graph to categorize the EEG signals into different visual patterns.
 * **Generative Adversarial Network (GAN) for Saliency and Image Reconstruction:** The features extracted by the GDN are fed into the GAN. This GAN consists of a generator and a discriminator. The generator aims to create a saliency map from the EEG features, while the discriminator tries to distinguish between real saliency maps (derived from eye-tracking data) and those generated by the generator. Through this adversarial process, the generator learns to produce accurate saliency maps from EEG signals.
 * The trained GDN-GAN can then be fine-tuned to perform image reconstruction from the EEG signals, going beyond just saliency detection.
+
+------------------------------------------------
+
+##### Network Architecture
+The proposed geometric deep network-based generative adversarial network (GDN-GAN) architecture contains two parts of sequential layers.
+Each part consists of a number of layers to map the EEG signals to the image saliency and to reconstruct the image stimuli.
+- The trained weight vectors of the network parameters are used as initial weight vectors to train the network to map the EEG signal to the image stimuli and realize the image reconstruction from the brain activity.
+- After functional connectivity-based graph embedding of the recorded visually evoked EEG signals, it imposed to the GDN part of the proposed network.
+
+
+![Screenshot from 2024-08-13 13-07-14](https://github.com/user-attachments/assets/040d341f-7d66-4d71-a2ce-b203902ea2fe)
+
+1. The GDN part extracts discriminative features of the different categories that the input belongs to.
+  - ![helllll](https://github.com/user-attachments/assets/19f286ab-08e7-406a-9f3c-2a263bb7e7dc)
+  - the detailed structure of the first GDN part of the network, and as it can be seen, it includes four layers of graph convolution. The Laplacian of the input graph is necessary to estimate the graph convolution of the input in each layer. The estimation is performed via the Chebyshev polynomial expansion of the Laplacian graph. Then, a batch normalization filters the output of each layer. After the fourth graph convolution layer, the
+extracted feature vector is passed through a dropout layer. Then, the flattened output of the dropout layer is fed to a dense fully connected layer, and a log-softmax function is used for the classification of the output of the fully connected layer.
+  - Shows The weights are trained to classify 40 categories of image stimulation and the flattened vector before the last dense layer is used to impose to the next GAN part of the network. The dimension of the flattened vector is equal to 6400.
+  - ![image](https://github.com/user-attachments/assets/4c010da5-314f-4229-9e1a-a14330eebcc2)
+  - illustrates the differences in the dimensions of every layer of the GDN. As each of the recorded EEG signals includes 128 channels, the constructed graph as input to the proposed GDN part in Figure 2 has 128 nodes. Every node in the constructed graph includes 440 samples. The input dimension of the graph convolutional layer independent of the number of graph nodes is considered to be 440, equal to the number of samples in each node. The obtained graph with the first graph convolution has 128 nodes with 440 samples in each vertex. A graph with 128 nodes with 220 samples in each vertex is the output of the second graph convolution, and the output of the third graph convolution operation is a 128-node graph with 110 samples in each of the nodes, and accordingly, the graph output of the fourth layer has 50 samples in each node. The attained 128-node graph with 50 samples in each node outputs a vector with 6400 elements.
+  - The flattened vector is passed through a dense layer and the dimensions of the inputs and outputs of the dense layer are 6400 and 40, respectively.
+  - ![image](https://github.com/user-attachments/assets/a482185e-b43d-4de6-a5be-9b137bfb9349)
+  - Table 1 shows the dimensions of weight tensors for different layers of GDN part of the proposed GDN-GAN. Moreover, it shows the total number of parameters of graph convolutional layers according to the order of the Chebyshev polynomial expansion considered for each layer.
+  - ![image](https://github.com/user-attachments/assets/32bf9274-27fd-4b9a-97d6-9af465323709)
+  - ![image](https://github.com/user-attachments/assets/5a5fc379-5c04-40d7-ad6c-37c10dcbbf46)
+  - ![image](https://github.com/user-attachments/assets/952c63c0-a7c3-45d8-a946-e1dfbe2655e0)
+  - Figure 5 illustrates different layers of the GAN part of the proposed network.
+  - Tables 2 and 3 give information about the details of the generator and discriminator parts of the proposed network, respectively.
+
+
+2. The GAN part maps the extracted feature vector to the image saliency.
+  - ![image](https://github.com/user-attachments/assets/e2b346e7-ad34-4451-a9aa-7ed43a04121a)
+
+  - The generator part of the GAN consists of two dense layers, followed by four sequential transposed two-dimensional (2D) convolution layers, and one 2D convolution layer and leaky rectified linear unit is used as the activation function of all layers except for the first dense layer. The output of the GDN is imposed
+to the generator, the input dimension of the generator is equal to 6400, and the output dimension of the first layer is 100. The output dimension of the second dense layer is equal to 20,000. The reshape layer converts the shape of the 20,000-dimensional vector to a three- dimensional output to impose to a 2D convolutional layer. Eight two-dimensional output with (50, 50) dimensions are imposed to the first transposed two-dimensional convolution layer. The kernel size in each of the transposed convolutional layers is equal to 4 × 4, and
+the number of filters in each of them is equal to eight. The size of the strides in the first transposed convolution layer is equal to 2 × 2, in the second transposed convolutional layer, it is equal to 3 × 3 , and in the next two transposed layers, it is equal to 1 × 1. The output of the fourth transposed convolution 2D is imposed to the 2D convolution layer. The kernel size of the 2D convolution layer is considered as being equal to 2 × 2 , and the ize of the strides in this layer is equal to 2 × 2 . The output dimension of this layer is
+equal to (299, 299), and is imposed to the last reshape layer. The output of the generator is a 299 × 299 -dimensional image. The schematic view of the outputs of each layer and the differences in the dimensions of the generator part of the proposed GDN-GAN are illustrated in Figure 6.
+  - The adversarial part of the proposed GAN has three 2D convolution layers with the rectified linear unit as the activation function. The size of the kernel for each of these convolutional layer is considered equal to 4 × 4 , the size of the strides is equal to 2 × 2, and the number of filters for each of them is equal to four. The output of the third 2D convolution is flattened and imposed to a dense layer with an output dimension that is equal to one, to discriminate between fake or real images generated by the generator part of the GAN. Figure 7 illustrates schematic view of dimensions of different layers and it presents a tangible view of the outputs in each phase of the network.
+  - ![image](https://github.com/user-attachments/assets/cb31d582-c249-4c97-8299-2c973c1aa29f)
+
+3. Overview
+  - Figure 8 presents an overview of the proposed method for image reconstruction using the trained network for realizing the saliency map reconstruction. As it can be seen in this figure, the weights of the network are initialized with the pre-trained weights of the saliency map reconstruction scenario. Fine-tuning the transfered weights realizes the image stimuli reconstruction
+  - ![image](https://github.com/user-attachments/assets/a152fb8b-c5a0-487e-99aa-14defd141066)
+
+
+
+
+### Training  and Evaluation
+  - d
+  - dd
+  - d
+  - dd
+  - ddd
+  - ddd
+  - dd
 
 #### [Salient arithmetic data extraction from brain activity via an improved deep network:](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
 
