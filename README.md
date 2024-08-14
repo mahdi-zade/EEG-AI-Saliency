@@ -354,7 +354,7 @@ steps:
 
 Let's take a deep dive into each step:
 
-1. Preprocessing: Depth-wise one-dimensional convolution layers to classify the brain signals into 10 different categories according to MNIST image digits. This is done by a **CNN**.
+1. Preprocessing: Normalization
    - For detailed Explanation visit [here](https://github.com/ab-mahdi/EEG-Notebook/tree/main) 
 No preprocessing?? -> A 14-channel time sample of the EEG dataset is imposed directly as an input signal to the proposed CNN-GAN. The removal of feature vector extraction step results in decreasing the computational load.
 
