@@ -11,6 +11,7 @@
 - normalized scanpath saliency (NSS)
 - correlation coefficient (CC)
 
+
 # Encoding
 - ![image](https://github.com/user-attachments/assets/7a09e3a8-1d8e-41da-a63a-d37f714606f6)
 
@@ -36,4 +37,28 @@
 - The most important features in an image are those that, when inhibited in an image, lead to the largest drop in compatibility score with respect to the corresponding neural activity signal.
 - ![image](https://github.com/user-attachments/assets/be4166ad-335a-45d2-bd80-40c0a682b472)
 - The contribution of pixel (x,y) to saliency at scale s, indicated as C(x, y, s, e, v), is computed by masking out a s×s patch around (x, y) pixel in the image v and, assessing the compatibility variation before and after removing it.
+- s scales: 3, 5, 9, 17, 33, 65.
 - Since we have the saliency contribution of each pixel, we can compute the output saliency map by summing up all pixel contributions and performing image-by-image basis normalization.
+
+# Results
+- In order to demonstrate that the obtained saliency is not only influenced by the image encoder and that neural signals, indeed, contribute to its prediction, we employed the baseline.
+- We used Inception-v3 (used for joint learning) and applied the approach in Saliency detection part with the difference that the saliency score was not based on compatibility, but on the log-likelihood variation for the image’s correct class.
+- ![image](https://github.com/user-attachments/assets/e00a3587-c53b-4cf8-ad21-f496a557ae5e)
+
+Obtained performance
+
+reveals that our method outperforms or is on par with state
+of the art saliency detectors, without using any supervision
+on the specific task, while those methods do. In addition,
+the performance difference between our brain-driven saliency
+detection method and the baseline indicates that the neural
+modality has an active role in detecting visual saliency.
+Fig. 3 shows qualitatively the saliency maps obtained by
+
+our approach, compared to those achieved by state-of-the-
+art saliency detectors [3], [4] and the baseline. The obtained
+
+saliency maps demonstrate also how the employment of the
+jointly-learned neural/visual features yields more accurate
+maps than the methods under comparison, in terms of
+localization quality and amount of noise in non-salient areas.
