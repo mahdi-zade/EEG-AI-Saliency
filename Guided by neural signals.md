@@ -5,7 +5,7 @@
 - All EEG signals were first detrended in order to remove unwanted linear trends, filtered with a notch filter (50 Hz and its harmonics) and with a bandpass filter with low and high-cut frequencies, respectively, at 5 Hz and 95 Hz, and finally z-scored (zero-centered values with unitary standard
 - Training, validation and test splits of the EEG dataset consists respectively of 1600 (80%), 200 (10%), 200 (10%) images with associated EEG signals, ensuring that all signals related to a given image belong to the same split.
 - Eye fixations recorded using a 60-Hz Tobii T60 eye-tracker – of the same six human subjects who underwent EEG recording. Training, validation and test splits are the same of EEG data.
-- [IMAGENET Database](https://mindbigdata.com/opendb/imagenet.html)
+- [IMAGENET Database](https://github.com/perceivelab/eeg_visual_classification?tab=readme-ov-file)
 # Evaluation Metrics
 - shuffled area under curve (s-AUC) 
 - normalized scanpath saliency (NSS)
