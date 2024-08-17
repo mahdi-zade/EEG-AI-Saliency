@@ -1,6 +1,5 @@
 # Database Settings
-The MindBigData has been recorded by David Vivancos [ 47 ] with the Emotiv EPOC
-device. This dataset has been gathered using a 14-channel cap. The placement of the EEG
+The [MindBigData](https://mindbigdata.com/opendb/) has been recorded by David Vivancos with the Emotiv EPOC device. This dataset has been gathered using a 14-channel cap. The placement of the EEG
 channel electrodes is shown in Figure 1, and the channel names considered in the recording
 procedure are A.F.3, F.7, F.3, FC.5, T.7, P7, O.1 in the left hemisphere and A.F.4, F.8, F.4, F.C.6, T.8, P8, O.2 in the right hemisphere as shown in dark blue in this figure. 
 ![image](https://github.com/user-attachments/assets/f72647c4-9422-4121-bb32-1293ebafecdc)
