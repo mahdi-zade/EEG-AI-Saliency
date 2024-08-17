@@ -62,7 +62,6 @@ considered for classification and salient arithmetic data extraction.
 The saliency feature map and the ground truth feature vector are two necessary inputs
 for calculating the saliency evaluation metrics. The level of similarity can be represented by
 considering these metrics.
-
 - Sensitivity, accuracy, precision, and recall based on true positive (TP), true negative (TN), false positive (FP), and
 false negative (FN)
 - Similarity metric (SIM)
@@ -70,11 +69,88 @@ false negative (FN)
 - Correlation coefficient (CC)
 - The covariance between FM and SM
 
+# Training
+- The training procedure is accomplished through cross-validation to adjust the network weights of the proposed CNN to the MindBig dataset.
+- The trained parameters of this part are transferred to the proposed CNN-GAN to extract the salient images of visual stimulation from EEG recordings.
+- Cross-entropy is utilized as a loss function for the training phase of CNN, and binary cross-entropy is employed for the training phase of CNN-GAN.
+- Different parameters have been used through a trial–error technique to find the optimal values of the proposed architecture.
+- Table 5 represents the values as search scope for the optimizer, cost function, and learning rate for the CNN and generative adversarial parts.
+- The corresponding optimal values are obtained with trial and error and illustrated in this table.
+- ![image](https://github.com/user-attachments/assets/86b984be-6afd-4456-b90e-1c254c3f5552)
+
+
 
 # Results
 
+#### The train and test accuracy plots of the proposed CNN
+- Classifies the MindBig dataset into 10 categories of visually evoked brain signals corresponding to the numbers between zero and nine Figure 9.
+- ![image](https://github.com/user-attachments/assets/216a53b9-27a5-4325-9fbf-a5544047044a)
+
+- The train and test loss plots of the proposed convolutional network are illustrated in Figure 10.
+- ![image](https://github.com/user-attachments/assets/d3f80c45-93f4-47d0-b957-c8429485792a)
+
+##### Comparison with other methods
+- ![image](https://github.com/user-attachments/assets/06c111da-1dbd-4649-8ed0-7ab378940c85)
+- ![image](https://github.com/user-attachments/assets/4cf2a636-4782-4559-ab4e-3fc334e14e55)
+- ![image](https://github.com/user-attachments/assets/98848e57-c3c1-4bfc-9983-32fe27a1f53f)
+- Another way to assess the performance of the proposed architecture is the representation of the confusion matrix.
+- Figure 15 exhibits the corresponding matrix of the proposed CNN to classify the MindBig dataset.
+- This matrix confirms the efficiency of the proposed CNN.
+- ![image](https://github.com/user-attachments/assets/c39f6a7e-b745-4113-8a4e-5e9408d1036a)
 
 
+#### Generating EEG Signals using GAN 
+
+- The MindBig dataset consists of 9120 14-channel EEG signals.
+- We can generate a set of signals through training a generative adversarial network (GAN) and add the generated signals to the base dataset to evaluate the performance of the proposed CNN.
+- We generate 50 sets of 10 14-channel EEG signals according to different categories and add these 500 generated signals to the MindBigData.
+- The generator part of the GAN consists of three transposed convolution 2-D layers, and the discriminator part of the GAN includes three convolution 2-D layers.
+- The details of layers are presented in Tables 5 and 6.
+- ![image](https://github.com/user-attachments/assets/254a2f90-30ff-4b34-9162-aae48058dd8d)
+- ![image](https://github.com/user-attachments/assets/3634557a-7f99-4495-a1f7-a264788c8190)
+- The training of GAN is performed with 9000 iterations.
+- The test accuracy of the proposed CNN with the new dataset after 10-fold cross-validation is equal to 90.3%.
+- The accuracy of the network with the pre-trained weights is performed considering the gen- erated signals, and the obtained test accuracy is equal to 86.9%.
+- Figure 16 confirms the proposed network's efficiency for classifying the new MindBigData with 9620 14-channel EEG recordings.
+- ![image](https://github.com/user-attachments/assets/f4ffc2ce-2032-418e-8d2a-f03951157270)
+
+- The details of the layers related to the generative and discriminator subnets are presented in Tables 7 and 8, respectively.
+- ![image](https://github.com/user-attachments/assets/e4976100-5cc3-46da-8b7c-374d02f6bcd4)
+
+#### Evaluation of reconstructed salient image
+- The evaluation of the proposed CNN-GAN for salient image extraction is accomplished in a 10-fold cross-validation considering the SSIM and CC for each image category of the MNIST dataset.
+- The classification of the EEG database is performed in the first CNN part of the network, and the extracted feature vector is applied as the input to the next GAN deep network to extract the salient image corresponding to the visual stimulation.
+- The results of SSIM and CC are represented in Table 9 and confirm the good performance of the proposed CNN-GAN for reconstructing the salient visual stimulation.
+- ![image](https://github.com/user-attachments/assets/1175e598-243d-45b2-af41-57bf040b8ad6)
+
+
+#### Full Image reconstruction
+
+- The weights of the trained CNN-GAN for salient image extraction from the brain activity are transferred to the network in order to reconstruct the original image.
+- The initialization of the parameters is performed in the transfer learning procedure, and the adjustment of the new weights to reconstruct the visual stimulation images is accomplished by tracking the loss function of the generator and discriminator networks.
+- The cross-entropy trend curves corresponding to loss function in salient image and original image extraction are illustrated in Figure 17.
+- ![image](https://github.com/user-attachments/assets/ddabdf83-abde-4d31-847c-35e80be86b7c)
+
+- Furthermore, the plots of tracking the CC and SSIM metrics according to each iteration are represented in this figure considering four categories in the MNIST dataset.
+- The results of the extracted salient image and reconstructed original image according to four visual stimulation groups are represented in Figure 18.
+- ![image](https://github.com/user-attachments/assets/a01ec496-dff2-4c4a-9af1-7b33cc750ccb)
+
+- Furthermore, the ground truth image and the actual visual stimulation image are described in this figure.
+- The visual assessment and the evaluation of the SSIM and CC metrics validate the efficiency and good performance of the proposed CNN-GAN framework.
+- Table 10 compares the performance of the proposed CNN-GAN against other valuable state-of-the-art method methods of SALICON [38], SalNet [39], visual classifier-driven detector [44], neural-driven detector [44], and GNN-based deep network [45] for saliency reconstruction.
+- ![image](https://github.com/user-attachments/assets/fc80474c-460e-48a4-a250-6bbac4e382bd)
+- This table confirms the efficiency of the proposed CNN-GAN method.
+
+
+# Limitations
+- One of the restrictions of the proposed method to be overcome in future works is constructing the reference dataset for salient image extraction.
+- This article’s reference data for visual saliency is gathered by implementing the SALICON technique in the CAFFE environment compiled to be compatible with the Python programming language.
+- This would be considered in future works to have salient data using an eye-tracker for tracking the pupil position to identify the visual salient part in the images.
+- Another recommendation to be considered in future works is more complicated arithmetic content for visual stimulation, and EEG records could be analyzed in these complex situations.
+- Channel selection is another recommendation to be explored in future works.
+- Studying the effects of different EEG channels in classification and salient arithmetic content extraction would be beneficial. The channels with the most discriminative data could be
+diagnosed through the experiment.
+- The application of this research in BCI projects must be addressed. The implementation of the proposed method in this article in the real world would be helpful for disabled or blind subjects to have better interaction with the surrounding environment.
 
 
 
