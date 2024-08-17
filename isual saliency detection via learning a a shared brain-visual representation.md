@@ -1,3 +1,8 @@
+# Dataset
+[The EEG-ImageNet dataset](https://github.com/perceivelab/eeg_visual_classification?tab=readme-ov-file)
+
+
+
 # Chebyshev graph convolution
 ![image](https://github.com/user-attachments/assets/8b902d11-3280-4e92-8c4f-3fc204ec932e)
 ![image](https://github.com/user-attachments/assets/8a63b16b-92b9-421c-90ac-42131b19df16)
