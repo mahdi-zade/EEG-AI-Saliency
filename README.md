@@ -1,5 +1,7 @@
 # EEG-AI-Saliency
+
 There seems to be only 3 sources with similar approach to visual saliency detection. We will explain the method used in each of them:
+
 --------------------------------------------------------------------------
 
 #### [Visual saliency detection guided by neural signals:](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
