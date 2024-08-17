@@ -22,10 +22,18 @@
   - ![image](https://github.com/user-attachments/assets/e032ad29-81c1-4718-8149-b4191521cbef)
 - Classification functions:
   - ![image](https://github.com/user-attachments/assets/b9c7dc1f-fa7d-4877-ab7d-b54cf3139a05)
+  - In the equations above, V(y) is the subset of images in V with class label y; similarly for E(y).
+  - Classification is performed by selecting, for an input item of one modality, the class whose corresponding items of the other modality yield the largest average compatibility. Clearly, then, it is necessary that F accurately matches EEG signals and images, which in turn depends on how close the embeddings provided by the respective encoders are.
 - Structured Hinge Loss for Training
   - The encoders are trained by minimizing a structured hinge loss, which encourages the compatibility function to assign higher scores to correct pairs (same class) than to incorrect pairs (different classes).
   - ![image](https://github.com/user-attachments/assets/2747885a-6fbd-439e-91ef-76352b96ff89)
+  - Minimize the function below:
+  - ![image](https://github.com/user-attachments/assets/fbec8a58-7610-422c-8ec7-5f1412411016)
 
 # Saliency Detection
 - The saliency detection method identifies important features in the image by analyzing how the compatibility score changes when parts of the image are masked.
+- Measure how the compatibility function F varies as image patches are suppressed at multiple scales.
+- The most important features in an image are those that, when inhibited in an image, lead to the largest drop in compatibility score with respect to the corresponding neural activity signal.
 - ![image](https://github.com/user-attachments/assets/be4166ad-335a-45d2-bd80-40c0a682b472)
+- The contribution of pixel (x,y) to saliency at scale s, indicated as C(x, y, s, e, v), is computed by masking out a s×s patch around (x, y) pixel in the image v and, assessing the compatibility variation before and after removing it.
+- Since we have the saliency contribution of each pixel, we can compute the output saliency map by summing up all pixel contributions and performing image-by-image basis normalization.
