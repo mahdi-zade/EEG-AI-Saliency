@@ -13,7 +13,7 @@ Aim: capture correspondences between visual elements and neural activities, succ
 
 Steps:
 1. Preprocessing
-2. Encoding the EEG and Image data into a same space. 
+2. Encoding the EEG and Image data into a common space. 
 3. Training the encoders as a classification problem based on the definition of a compatibility function. The encoders are trained to maximize the similarity between the embeddings of corresponding images and EEGs. This aims to capture the relationship between what a person is seeing and their brain activity.
 4. Analyzing the saliency score of each pixel. Once trained, these encoders analyze how the compatibility between the EEG and image embeddings changes when different regions of the image are suppressed. Regions whose removal causes significant variations in compatibility are considered salient, resulting in a visual saliency map.
 
