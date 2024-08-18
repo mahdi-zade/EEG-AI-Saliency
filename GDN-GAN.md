@@ -1,7 +1,13 @@
 # Dataset
 [The EEG-ImageNet dataset](https://github.com/perceivelab/eeg_visual_classification?tab=readme-ov-file)
 - The EEG-ImageNet dataset has been recorded using a 128-channel cap (actiCAP 128Ch). The EEG-ImageNet includes the EEG signals of six human subjects produced as the result of visual stimulation.
-- The visual stimulation used in this research contains 40 categories of different images of the ImageNet database
+- The visual stimulation used in this research contains 40 categories of different images of the ImageNet database.
+- Contains 11,965 EEG sequences recorded while a group of 6 participant subjects looked at images displayed on a computer screen.
+- The images are taken from a subset of 40 classes from ImageNet with 50 images per class (in total, 2,000 images).
+- Each EEG sample has 128 channels, each one with about 500 values for each observed image.
+- All EEG signals were first detrended in order to remove unwanted linear trends, filtered with a notch filter (50 Hz and its harmonics) and with a bandpass filter with low and high-cut frequencies, respectively, at 5 Hz and 95 Hz, and finally z-scored (zero-centered values with unitary standard
+- Training, validation and test splits of the EEG dataset consists respectively of 1600 (80%), 200 (10%), 200 (10%) images with associated EEG signals, ensuring that all signals related to a given image belong to the same split.
+- Eye fixations recorded using a 60-Hz Tobii T60 eye-tracker – of the same six human subjects who underwent EEG recording. Training, validation and test splits are the same of EEG data.
 
 # Steps
 ![steps](https://github.com/user-attachments/assets/5aba1387-f8f6-43e5-943f-eed0f37e522f)
