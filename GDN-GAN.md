@@ -13,7 +13,7 @@
 
 
 # Chebyshev Graph Convolution
-Based on functional connectivity
+Based on functional connectivity implemented with [torch.conv.ChebConv](https://docs.dgl.ai/en/0.8.x/generated/dgl.nn.pytorch.conv.ChebConv.html)
 
 # Generative Deep Network
 Generative deep modeling is considered as an unsupervised learning task that discovers and learns the contents in input data in such a way that the extracted model can be used to generate new examples that could have been extracted plausibly from the original dataset.
@@ -194,6 +194,75 @@ It will pave the way toward mind reading and writing via EEG recordings, and is 
 ![image](https://github.com/user-attachments/assets/a685f10e-b5a0-43f9-9611-4600740c4fa6)
 ![image](https://github.com/user-attachments/assets/c0aee884-749d-4aa4-b528-214af26c11f7)
 ![image](https://github.com/user-attachments/assets/137cc242-c74e-44f1-aca5-3619087deba3)
+- Code implementation
+  - step 1: Constructing the Graph
+  ```
+  pip install torch torch-geometric
+  import torch
+  import torch.nn.functional as F
+  from torch_geometric.nn import ChebConv
+  from torch_geometric.data import Data
+  import numpy as np
+  
+  # Assume `eeg_epoch` is a NumPy array of shape (num_channels, num_samples)
+  # representing an EEG epoch. `num_channels` is the number of EEG channels,
+  # and `num_samples` is the number of time points in the epoch.
+  
+  num_channels, num_samples = eeg_epoch.shape
+  
+  # Compute the adjacency matrix based on functional connectivity (e.g., correlation)
+  adj_matrix = np.corrcoef(eeg_epoch)
+  
+  # Threshold the adjacency matrix to create a sparse graph
+  # (optional step to keep only significant connections)
+  threshold = 0.5
+  adj_matrix[adj_matrix < threshold] = 0
+  
+  # Convert the adjacency matrix to edge indices and edge attributes
+  edge_index = torch.tensor(np.array(np.nonzero(adj_matrix)), dtype=torch.long)
+  edge_attr = torch.tensor(adj_matrix[adj_matrix.nonzero()], dtype=torch.float)
+  
+  # Node features can be the EEG data itself, but typically it's some feature vector.
+  # Here we use the mean power of the signal in each channel as a simple feature.
+  node_features = torch.tensor(np.mean(eeg_epoch, axis=1), dtype=torch.float).view(-1, 1)
+  
+  # Create the graph data object
+  data = Data(x=node_features, edge_index=edge_index, edge_attr=edge_attr)
+
+  ```
+  - Step2: Chebyshev Graph Convolution Layer
+  ```
+  class EEGChebNet(torch.nn.Module):
+    def __init__(self, in_channels, out_channels, K):
+        super(EEGChebNet, self).__init__()
+        # Chebyshev convolutional layer
+        self.conv1 = ChebConv(in_channels, 16, K=K)
+        self.conv2 = ChebConv(16, out_channels, K=K)
+
+    def forward(self, data):
+        x, edge_index, edge_attr = data.x, data.edge_index, data.edge_attr
+        
+        # Apply first Chebyshev convolutional layer
+        x = self.conv1(x, edge_index, edge_attr)
+        x = F.relu(x)
+        
+        # Apply second Chebyshev convolutional layer
+        x = self.conv2(x, edge_index, edge_attr)
+        
+        return x
+
+  ```
+  - Step 3:
+  ```
+  # Initialize the network
+  K = 3  # Order of Chebyshev polynomial (typically small, e.g., 3 or 5)
+  model = EEGChebNet(in_channels=1, out_channels=4, K=K)  # Adjust out_channels as needed
+  
+  # Forward pass through the network
+  output = model(data)
+  
+  print(output)
+  ```
 
 # GDN Tutorial
 
