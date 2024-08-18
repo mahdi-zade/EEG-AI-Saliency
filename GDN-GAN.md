@@ -1,7 +1,6 @@
 # Dataset
 [The EEG-ImageNet dataset](https://github.com/perceivelab/eeg_visual_classification?tab=readme-ov-file)
 - The EEG-ImageNet dataset has been recorded using a 128-channel cap (actiCAP 128Ch). The EEG-ImageNet includes the EEG signals of six human subjects produced as the result of visual stimulation.
-- The visual stimulation used in this research contains 40 categories of different images of the ImageNet database.
 - Contains 11,965 EEG sequences recorded while a group of 6 participant subjects looked at images displayed on a computer screen.
 - The images are taken from a subset of 40 classes from ImageNet with 50 images per class (in total, 2,000 images).
 - Each EEG sample has 128 channels, each one with about 500 values for each observed image.
