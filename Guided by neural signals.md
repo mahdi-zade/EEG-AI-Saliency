@@ -15,8 +15,8 @@
 # Encoding
 - ![image](https://github.com/user-attachments/assets/7a09e3a8-1d8e-41da-a63a-d37f714606f6)
 
-- EEG encoder: EEG-Net that is a state-of-the-art network for classifying EEG signals and consists of a sequence of a convolutional layers.
-- Image encoder: Inception-v3 model, pre-trained on ImageNet, to extract visual features, followed by a linear layer for mapping to the joint embedding space.
+- EEG encoder: [EEG-Net](https://github.com/secondlevel/EEG-classification) that is a state-of-the-art network for classifying EEG signals and consists of a sequence of a convolutional layers.
+- Image encoder: [Inception-v3](https://keras.io/api/applications/inceptionv3/) model, pre-trained on ImageNet, to extract visual features, followed by a linear layer for mapping to the joint embedding space.
 
 # Training the encoders
 - Comptibility function:
