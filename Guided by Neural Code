@@ -1,0 +1,53 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# Define Image Encoder (e.g., Pre-trained CNN)
+class ImageEncoder(nn.Module):
+    def __init__(self):
+        super(ImageEncoder, self).__init__()
+        self.model = torchvision.models.resnet50(pretrained=True)
+        self.fc = nn.Linear(2048, 256)  # Example: output 256-d embedding
+
+    def forward(self, x):
+        x = self.model(x)
+        x = self.fc(x)
+        return x
+
+# Define EEG Encoder (e.g., EEGNet or CNN-LSTM)
+class EEGEncoder(nn.Module):
+    def __init__(self):
+        super(EEGEncoder, self).__init__()
+        # Define the layers suitable for EEG encoding
+        self.conv1 = nn.Conv1d(18, 64, kernel_size=5, stride=1, padding=2)
+        self.relu = nn.ReLU()
+        self.fc = nn.Linear(64, 256)  # Example: output 256-d embedding
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.relu(x)
+        x = self.fc(x)
+        return x
+
+# Loss Function and Optimizer
+image_encoder = ImageEncoder()
+eeg_encoder = EEGEncoder()
+criterion = nn.TripletMarginLoss(margin=1.0)
+optimizer = optim.Adam(list(image_encoder.parameters()) + list(eeg_encoder.parameters()), lr=0.001)
+
+# Training Loop
+for epoch in range(num_epochs):
+    for batch in train_loader:
+        images, eeg_data, labels = batch
+        
+        # Forward Pass
+        img_embed = image_encoder(images)
+        eeg_embed = eeg_encoder(eeg_data)
+        
+        # Compute Loss (e.g., Triplet Loss)
+        loss = criterion(anchor=eeg_embed, positive=img_embed, negative=eeg_embed_neg)
+        
+        # Backward Pass and Optimization
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
