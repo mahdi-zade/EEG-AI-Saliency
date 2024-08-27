@@ -6,10 +6,7 @@
 - Training, validation and test splits of the EEG dataset consists respectively of 1600 (80%), 200 (10%), 200 (10%) images with associated EEG signals, ensuring that all signals related to a given image belong to the same split.
 - Eye fixations recorded using a 60-Hz Tobii T60 eye-tracker – of the same six human subjects who underwent EEG recording. Training, validation and test splits are the same of EEG data.
 - [IMAGENET Database](https://github.com/perceivelab/eeg_visual_classification?tab=readme-ov-file)
-# Evaluation Metrics
-- shuffled area under curve (s-AUC) 
-- normalized scanpath saliency (NSS)
-- correlation coefficient (CC)
+
 
 
 # Encoding
@@ -39,11 +36,16 @@
 - The contribution of pixel (x,y) to saliency at scale s, indicated as C(x, y, s, e, v), is computed by masking out a s×s patch around (x, y) pixel in the image v and, assessing the compatibility variation before and after removing it.
 - s scales: 3, 5, 9, 17, 33, 65.
 - Since we have the saliency contribution of each pixel, we can compute the output saliency map by summing up all pixel contributions and performing image-by-image basis normalization.
+# Evaluation Metrics
+- Shuffled area under curve (s-AUC) 
+- Normalized scanpath saliency (NSS)
+- Correlation coefficient (CC)
 
 # Results
 - In order to demonstrate that the obtained saliency is not only influenced by the image encoder and that neural signals, indeed, contribute to its prediction, we employed the baseline.
 - We used Inception-v3 (used for joint learning) and applied the approach in Saliency detection part with the difference that the saliency score was not based on compatibility, but on the log-likelihood variation for the image’s correct class.
 - ![image](https://github.com/user-attachments/assets/e00a3587-c53b-4cf8-ad21-f496a557ae5e)
+
 
 Obtained performance
 
