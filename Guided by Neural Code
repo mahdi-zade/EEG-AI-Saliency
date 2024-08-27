@@ -1,53 +1,166 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torchvision import models, transforms
+from torch.utils.data import Dataset, DataLoader
+import torch.nn.functional as F
+import numpy as np
+
 
 # Define Image Encoder (e.g., Pre-trained CNN)
 class ImageEncoder(nn.Module):
-    def __init__(self):
+    def __init__(self, embedding_dim=128):
         super(ImageEncoder, self).__init__()
-        self.model = torchvision.models.resnet50(pretrained=True)
-        self.fc = nn.Linear(2048, 256)  # Example: output 256-d embedding
+        inception = models.inception_v3(pretrained=True)
+        # Remove the last fully connected layer
+        self.feature_extractor = nn.Sequential(*list(inception.children())[:-1])
+        # Add a new fully connected layer for embedding
+        self.fc = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(2048, 512),
+            nn.ReLU(),
+            nn.Linear(512, embedding_dim),
+            nn.ReLU()
+        )
 
     def forward(self, x):
-        x = self.model(x)
+        x = self.feature_extractor(x)
         x = self.fc(x)
         return x
+
 
 # Define EEG Encoder (e.g., EEGNet or CNN-LSTM)
-class EEGEncoder(nn.Module):
-    def __init__(self):
-        super(EEGEncoder, self).__init__()
-        # Define the layers suitable for EEG encoding
-        self.conv1 = nn.Conv1d(18, 64, kernel_size=5, stride=1, padding=2)
-        self.relu = nn.ReLU()
-        self.fc = nn.Linear(64, 256)  # Example: output 256-d embedding
+class EEGNet(nn.Module):
+    def __init__(self, num_classes=2, Chans=64, Samples=128, dropoutRate=0.5):
+        super(EEGNet, self).__init__()
+        self.firstConv = nn.Sequential(
+            nn.Conv2d(1, 16, (1, 64), padding=(0, 32), bias=False),
+            nn.BatchNorm2d(16)
+        )
+        self.depthwiseConv = nn.Sequential(
+            nn.Conv2d(16, 32, (Chans, 1), groups=16, bias=False),
+            nn.BatchNorm2d(32),
+            nn.ELU(),
+            nn.AvgPool2d((1, 4)),
+            nn.Dropout(dropoutRate)
+        )
+        self.separableConv = nn.Sequential(
+            nn.Conv2d(32, 32, (1, 16), padding=(0, 8), bias=False),
+            nn.BatchNorm2d(32),
+            nn.ELU(),
+            nn.AvgPool2d((1, 8)),
+            nn.Dropout(dropoutRate)
+        )
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(736, 128),  # Change this to match output size
+            nn.ReLU()
+        )
 
     def forward(self, x):
-        x = self.conv1(x)
-        x = self.relu(x)
-        x = self.fc(x)
+        x = self.firstConv(x)
+        x = self.depthwiseConv(x)
+        x = self.separableConv(x)
+        x = self.classifier(x)
         return x
 
-# Loss Function and Optimizer
-image_encoder = ImageEncoder()
-eeg_encoder = EEGEncoder()
-criterion = nn.TripletMarginLoss(margin=1.0)
-optimizer = optim.Adam(list(image_encoder.parameters()) + list(eeg_encoder.parameters()), lr=0.001)
+# Create a custom PyTorch dataset to load image-EEG pairs.
+class ImageEEGDataset(Dataset):
+    def __init__(self, image_paths, eeg_data, transform=None):
+        self.image_paths = image_paths
+        self.eeg_data = eeg_data
+        self.transform = transform
 
-# Training Loop
-for epoch in range(num_epochs):
-    for batch in train_loader:
-        images, eeg_data, labels = batch
-        
-        # Forward Pass
-        img_embed = image_encoder(images)
-        eeg_embed = eeg_encoder(eeg_data)
-        
-        # Compute Loss (e.g., Triplet Loss)
-        loss = criterion(anchor=eeg_embed, positive=img_embed, negative=eeg_embed_neg)
-        
-        # Backward Pass and Optimization
+    def __len__(self):
+        return len(self.image_paths)
+
+    def __getitem__(self, idx):
+        image = self.load_image(self.image_paths[idx])
+        eeg = self.eeg_data[idx]
+
+        if self.transform:
+            image = self.transform(image)
+
+        # Convert EEG data to torch tensor
+        eeg = torch.tensor(eeg, dtype=torch.float32)
+
+        return image, eeg
+
+    def load_image(self, path):
+        from PIL import Image
+        return Image.open(path).convert('RGB')
+
+
+# Define Contrastive Loss Function
+# Contrastive loss is used to minimize the distance between similar pairs and maximize the distance for dissimilar pairs.
+
+class ContrastiveLoss(nn.Module):
+    def __init__(self, margin=1.0):
+        super(ContrastiveLoss, self).__init__()
+        self.margin = margin
+
+    def forward(self, output1, output2, label):
+        euclidean_distance = F.pairwise_distance(output1, output2)
+        loss_contrastive = torch.mean((1 - label) * torch.pow(euclidean_distance, 2) +
+                                      (label) * torch.pow(torch.clamp(self.margin - euclidean_distance, min=0.0), 2))
+        return loss_contrastive
+
+# Define the training loop for the dual encoder model.
+def train(model, dataloader, criterion, optimizer, device):
+    model.train()
+    running_loss = 0.0
+
+    for i, (images, eegs) in enumerate(dataloader):
+        images, eegs = images.to(device), eegs.to(device)
+
+        # Forward pass
+        image_embeddings = model[0](images)
+        eeg_embeddings = model[1](eegs)
+
+        # Create positive and negative pairs for contrastive loss
+        labels = torch.tensor([1] * len(images), dtype=torch.float32).to(device)  # All are positive pairs for this example
+
+        loss = criterion(image_embeddings, eeg_embeddings, labels)
+
+        # Backward pass and optimization
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+
+        running_loss += loss.item()
+
+    return running_loss / len(dataloader)
+
+# Combine all components and train the model.
+# Hyperparameters
+batch_size = 32
+embedding_dim = 128
+learning_rate = 0.001
+num_epochs = 50
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+# Define image transformations
+transform = transforms.Compose([
+    transforms.Resize((299, 299)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+])
+
+# Prepare dataset and dataloader
+image_paths = [...]  # List of image file paths
+eeg_data = [...]  # Corresponding EEG data
+dataset = ImageEEGDataset(image_paths, eeg_data, transform=transform)
+dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+# Initialize models
+image_encoder = ImageEncoder(embedding_dim=embedding_dim).to(device)
+eeg_encoder = EEGNet(Chans=64, Samples=128, dropoutRate=0.5).to(device)
+
+# Define loss function and optimizer
+criterion = ContrastiveLoss().to(device)
+optimizer = optim.Adam(list(image_encoder.parameters()) + list(eeg_encoder.parameters()), lr=learning_rate)
+
+# Train the model
+for epoch in range(num_epochs):
+    loss = train((image_encoder, eeg_encoder), dataloader, criterion, optimizer, device)
+    print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss:.4f}")
