@@ -1,3 +1,84 @@
+<a id="readme-top"></a>
+
+<br />
+<div align="center">
+  <a href="https://github.com/mehdi-zade/EEG-AI-Saliency">
+
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+  </a>
+</div>
+<br />
+
+<!-- PROJECT LOGO -->
+<div align="center">
+  <a href="https://github.com/mehdi-zade/EEG-AI-Saliency">
+    <img src="assets/logo.png" alt="Logo" width="160" height="160">
+  </a>
+
+  <h3 align="center">EEG-AI Saliency Map Reconstruction</h3>
+
+  <p align="center">
+    A Review of the literature surronding the topic of reconstructing the saliency map of an image based on EEG signals
+    <br />
+    <hr width="500px;" color="red" size="10">
+    This list was last updated in  <b>August 2024</b>
+    <hr width="500px;" color="red" size="10">
+    <br />
+    <a href="https://github.com/Avir-AI"><strong>Explore other projects »</strong></a>
+    <br />
+    <br />    
+    <br />
+  </p>
+</div>
+
+
+
+<!-- TABLE OF CONTENTS -->
+<details open>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+      </ul>
+    </li>
+    <li><a href="#list-of-artificial-intelligence-applications-in-electroencephalography">🔶List of Artificial Intelligence Applications in Electroencephalography🔶</a></li>
+    <li><a href="#datasets">EEG Datasets</a></li>
+    <li>
+      <a href="#introduction-to-the-field">Introduction to the Field</a>
+      <ul>
+        <li><a href="#what-is-electroencephalographyeeg">What is Electroencephalography(EEG)?</a></li>
+        <li><a href="#why-is-eeg-data-so-compelling">Why is EEG Data so Compelling?</a></li>
+        <li><a href="#what-are-the-applications-of-eeg-ai-in-various-fields">What Are the Applications of EEG-AI in Various Fields?</a></li>
+        <li><a href="#what-are-the-common-preprocessing-methods">What Are the Common Preprocessing Methods?</a></li>
+        <li><a href="#what-are-the-common-cross-validation-methods">What Are the Common Cross Validation Methods?</a></li>
+        <li><a href="#what-are-the-common-classifiers">What Are the Common Classifiers?</a></li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+This meticulously curated list aims to showcase the latest breakthroughs in the fusion of Electroencephalography (EEG) and Artificial Intelligence (AI). By consolidating related fields and subfields, we've created a user-friendly framework that allows you to quickly explore them.
+
+Whether you're a researcher, student, or hobbyist, this guide is designed to serve as a valuable resource for your endeavors. We hope you find it informative, inspiring, and useful in exploring the vast potential of EEG-AI applications.
+
+
+
+
+
 # EEG-AI-Saliency
 
 There seems to be only 3 sources with similar approach to visual saliency detection. We will explain the method used in each of them:
