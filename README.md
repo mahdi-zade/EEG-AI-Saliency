@@ -39,21 +39,21 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This meticulously curated list aims to showcase the latest breakthroughs in the fusion of Electroencephalography (EEG) and Artificial Intelligence (AI). By consolidating related fields and subfields, we've created a user-friendly framework that allows you to quickly explore them.
+Visual saliency detection and image reconstruction using EEG signals aim to decode neural activity into meaningful visual outputs, offering insights into human perception and attention. This process involves creating saliency maps that highlight regions of visual stimuli capturing attention and reconstructing images perceived by the brain.
 
-Whether you're a researcher, student, or hobbyist, this guide is designed to serve as a valuable resource for your endeavors. We hope you find it informative, inspiring, and useful in exploring the vast potential of EEG-AI applications.
+The approaches span several methodologies:
 
+1. Neural-Guided Saliency Detection: EEG and image data are encoded into a common space, maximizing the compatibility between neural and visual embeddings. Salient regions are identified by analyzing how suppressing image areas impacts this compatibility.
 
+2. Graph-Based Saliency and Image Reconstruction: EEG data is represented as functional connectivity-based graphs, and features are extracted using geometric deep networks. A generative adversarial network (GAN) then generates saliency maps and reconstructs images, leveraging eye-tracking data for supervision.
 
+3. Arithmetic Saliency and Reconstruction: A CNN-GAN framework processes normalized EEG data to classify neural responses to visual stimuli and reconstruct corresponding images. Using MNIST digits as visual stimuli, this method achieves high classification accuracy (95.4%) and robust saliency map quality (SSIM: 92.9%, CC: 97.28%).
 
-
-# EEG-AI-Saliency
-
-There seems to be only 3 sources with similar approach to visual saliency detection. We will explain the method used in each of them:
+These innovative techniques demonstrate the potential of integrating deep learning and neural data for advanced applications in neuroscience, brain-computer interfaces, and visual processing research.
 
 --------------------------------------------------------------------------
 
-#### [Visual saliency detection guided by neural signals:](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
+#### [Visual saliency detection guided by neural signals](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
 
 Aim: capture correspondences between visual elements and neural activities, successfully generalizing to unseen images to identify their most salient regions.
 
@@ -71,7 +71,7 @@ Steps:
 - For detailed Explanation visit [here](https://github.com/ab-mahdi/EEG-AI-Salience/blob/main/Guided%20by%20neural%20signals.md) 
 
 ------------------------------------------------------------
-#### [Visual Saliency and Image Reconstruction from EEG Signals via an Effective Geometric Deep Network-Based Generative Adversarial Network:](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
+#### [Visual Saliency and Image Reconstruction from EEG Signals via an Effective Geometric Deep Network-Based Generative Adversarial Network](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
 
 - Inputs: EEG, Ground truth obtained by eye tracking
 - Output: Image saliency map and full reconstructed image
@@ -97,7 +97,7 @@ Let's take a deep dive into each step:
 -----------------------------------
 
 
-#### [Salient arithmetic data extraction from brain activity via an improved deep network:](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
+#### [Salient arithmetic data extraction from brain activity via an improved deep network](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://ieeexplore.ieee.org/document/9320159&ved=2ahUKEwig94aDu-yHAxX0TKQEHTeMAf0QFnoECBMQAQ&usg=AOvVaw3ztGyfYLu_r6N34G0MAfA4)
 
 Aim: To consider the Impact of arithmetic concepts on vision-related brain records.
 
