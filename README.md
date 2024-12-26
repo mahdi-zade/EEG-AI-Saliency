@@ -25,7 +25,7 @@
     A Review of the literature surronding the topic of reconstructing the saliency map of an image based on EEG signals
     <br />
     <hr width="500px;" color="red" size="10">
-    This list was last updated in  <b>August 2024</b>
+    This review contains the literature published before <b>August 2024</b>
     <hr width="500px;" color="red" size="10">
     <br />
     <a href="https://github.com/Avir-AI"><strong>Explore other projects »</strong></a>
@@ -34,38 +34,6 @@
     <br />
   </p>
 </div>
-
-
-
-<!-- TABLE OF CONTENTS -->
-<details open>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-      </ul>
-    </li>
-    <li><a href="#list-of-artificial-intelligence-applications-in-electroencephalography">🔶List of Artificial Intelligence Applications in Electroencephalography🔶</a></li>
-    <li><a href="#datasets">EEG Datasets</a></li>
-    <li>
-      <a href="#introduction-to-the-field">Introduction to the Field</a>
-      <ul>
-        <li><a href="#what-is-electroencephalographyeeg">What is Electroencephalography(EEG)?</a></li>
-        <li><a href="#why-is-eeg-data-so-compelling">Why is EEG Data so Compelling?</a></li>
-        <li><a href="#what-are-the-applications-of-eeg-ai-in-various-fields">What Are the Applications of EEG-AI in Various Fields?</a></li>
-        <li><a href="#what-are-the-common-preprocessing-methods">What Are the Common Preprocessing Methods?</a></li>
-        <li><a href="#what-are-the-common-cross-validation-methods">What Are the Common Cross Validation Methods?</a></li>
-        <li><a href="#what-are-the-common-classifiers">What Are the Common Classifiers?</a></li>
-      </ul>
-    </li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
 
 
 <!-- ABOUT THE PROJECT -->
