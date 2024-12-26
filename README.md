@@ -167,13 +167,13 @@ Let's take a deep dive into each step:
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/Avir-AI/EEG_Applications_Hub.svg?style=for-the-badge
-[contributors-url]: https://github.com/Avir-AI/EEG_Applications_Hub/graphs/contributors
+[contributors-url]: https://github.com/mehdi-zade/EEG-AI-Saliency/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/Avir-AI/EEG_Applications_Hub.svg?style=for-the-badge
-[forks-url]: https://github.com/Avir-AI/EEG_Applications_Hub/network/members
+[forks-url]: https://github.com/mehdi-zade/EEG-AI-Saliency/network/members
 [stars-shield]: https://img.shields.io/github/stars/Avir-AI/EEG_Applications_Hub.svg?style=for-the-badge
-[stars-url]: https://github.com/Avir-AI/EEG_Applications_Hub/stargazers
+[stars-url]: https://github.com/mehdi-zade/EEG-AI-Saliency/stargazers
 [issues-shield]: https://img.shields.io/github/issues/Avir-AI/EEG_Applications_Hub.svg?style=for-the-badge
-[issues-url]: https://github.com/Avir-AI/EEG_Applications_Hub/issues
+[issues-url]: https://github.com/mehdi-zade/EEG-AI-Saliency/issues
 [license-shield]: https://img.shields.io/github/license/Avir-AI/EEG_Applications_Hub.svg?style=for-the-badge
 [license-url]: https://github.com/Avir-AI/EEG_Applications_Hub/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
